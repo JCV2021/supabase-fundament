@@ -110,7 +110,7 @@ export default function RankPage() {
   useEffect(() => {
     const fetchPosts = async () => {
       const { data, error } = await supabase
-        .from("posts_new")
+        .from("post_new")
         .select("id, image_url, caption, likes, user_id, created_at")
         .gt("likes", 5)
         .order("likes", { ascending: false })
@@ -146,12 +146,20 @@ export default function RankPage() {
               onClick={() => setSelectedPost(post)}
               className="relative aspect-square overflow-hidden group"
             >
+              // En app/rank/page.tsx
               <Image
                 src={post.image_url}
-                alt={`Post con ${post.likes} likes`}
+                alt="Ranking image"
+                onError={(e) => {
+                  // Si la imagen falla (404), ponemos una por defecto para que no salga el error rojo
+                  e.currentTarget.src = "/default-placeholder.png";
+                }}
                 fill
-                className="object-cover transition-transform group-hover:scale-105"
+                className="object-cover"
+                // 
+                sizes="(max-width: 768px) 33vw, 200px" 
               />
+      
               {/* Overlay con likes al hover */}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
                 <HeartIcon />

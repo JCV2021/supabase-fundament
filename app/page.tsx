@@ -51,12 +51,12 @@ function PostCard({
       <div className="flex items-center gap-3 p-4">
         <div className="relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary">
           <Image
-            src={
-              post.user?.avatar ||
-              "https://xynshcnkxdliapebmyaz.supabase.co/storage/v1/object/public/images/posts/unnamed-14.jpg"
-            }
-            alt={post.user?.username || "default_user"}
+            src={post.image_url || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe"}
+            alt="Post image"
             fill
+            priority={true}
+            unoptimized // <-- AÑADE ESTO TEMPORALMENTE
+            sizes="(max-width: 768px) 100vw, 500px"
             className="object-cover"
           />
         </div>
@@ -65,7 +65,7 @@ function PostCard({
             {post.user?.username || "default_user"}
           </span>
           <span className="text-xs text-foreground/50">
-            {getTimeAgo(new Date(post.created_at))}
+            {post.created_at ? getTimeAgo(new Date(post.created_at)) : 'Recientemente'}
           </span>
         </div>
       </div>
@@ -76,6 +76,9 @@ function PostCard({
           src={post.image_url}
           alt={`Post de ${post.user?.username || "default_user"}`}
           fill
+          priority={true} 
+          // SOLUCIÓN AL WARNING SIZES: Define el tamaño para el navegador
+          sizes="(max-width: 768px) 100vw, 500px" 
           className="object-cover"
         />
       </div>
@@ -128,15 +131,19 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       const { data, error } = await supabase
-        .from("posts_new")
-        .select("*")
-        .order("created_at", { ascending: false });
+        .from('post_new')
+        .select('id, image_url, caption, likes')
+        .gt('likes', 5)                 // mayor que 5
+        .order('likes', { ascending: false }) // descendente
+        // .limit(10);                     // opcional durante las pruebas
 
       if (error) {
         console.error("Error al obtener los posts:", error);
       } else {
         setPosts(data);
+        console.log("Post ordenados por fecha:", data);
       }
+      
     };
 
     fetchPosts();

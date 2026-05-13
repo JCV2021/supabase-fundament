@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   title: "Suplatzigram",
   description: "App inspirada en Instagram - Curso de Supabase de Platzi",
 };
+// app/layout.tsx
+// ... (imports y constantes de fuentes arriba)
 
 export default function RootLayout({
   children,
@@ -24,9 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    <html lang="en" suppressHydrationWarning> 
+      <body 
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`} 
+        suppressHydrationWarning
       >
         <div className="pb-20">
           {children}
@@ -36,3 +39,21 @@ export default function RootLayout({
     </html>
   );
 }
+
+// export default function RootLayout({
+//   children,
+// }: Readonly<{
+//   children: React.ReactNode;
+// }>) {
+//   return (
+//     <html lang="en">
+//       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
+
+//         <div className="pb-20">
+//           {children}
+//         </div>
+//         <BottomNav />
+//       </body>
+//     </html>
+//   );
+// }
