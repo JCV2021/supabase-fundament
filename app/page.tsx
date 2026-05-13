@@ -140,7 +140,7 @@ export default function Home() {
       if (error) {
         console.error("Error al obtener los posts:", error);
       } else {
-        setPosts(data);
+        setPosts(data as any);
         console.log("Post ordenados por fecha:", data);
       }
       
