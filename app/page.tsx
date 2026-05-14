@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { getTimeAgo } from "./utils/time";
 import { type Post } from "./mocks/posts";
+export const dynamic = 'force-dynamic';
 
 import { supabase } from "./utils/client";
 
@@ -133,7 +134,6 @@ export default function Home() {
       const { data, error } = await supabase
         .from('post_new')
         .select('id, image_url, caption, likes')
-        .gt('likes', 5)                 // mayor que 5
         .order('likes', { ascending: false }) // descendente
         // .limit(10);                     // opcional durante las pruebas
 
