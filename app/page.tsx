@@ -115,19 +115,55 @@ function PostCard({
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
 
-  const handleLike = (postId: number | string) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              isLiked: !post.isLiked,
-              likes: post.isLiked ? post.likes - 1 : post.likes + 1,
-            }
-          : post
-      )
-    );
-  };
+
+      const handleLike = async (postId: number | string) => {
+  // 1. Buscamos el post actual para saber cuántos likes tiene ahora
+        const postToUpdate = posts.find((p) => p.id === postId);
+        if (!postToUpdate) return;
+
+        const newIsLiked = !postToUpdate.isLiked;
+        const newLikesCount = newIsLiked ? postToUpdate.likes + 1 : Math.max(0, postToUpdate.likes - 1);
+
+  // 2. Actualización visual inmediata (Optimistic Update)
+        setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === postId
+            ? { ...post, isLiked: newIsLiked, likes: newLikesCount }
+            : post
+        )
+      );
+
+  // 3. Persistencia Real en Supabase
+    const { error } = await supabase
+    .from('post_new')
+    .update({ 
+      likes: newLikesCount,
+      // Nota: Si tienes una columna 'isLiked' en tu DB, inclúyela aquí. 
+      // Si no, solo actualiza 'likes'.
+    })
+    .eq('id', Number(postId));
+
+  if (error) {
+    console.error("Error al sincronizar el like con Supabase:", error);
+    // Opcional: Aquí podrías revertir el setPosts si falla la red
+  }
+};
+
+
+
+  // const handleLike = (postId: number | string) => {
+  //   setPosts((prevPosts) =>
+  //     prevPosts.map((post) =>
+  //       post.id === postId
+  //         ? {
+  //             ...post,
+  //             isLiked: !post.isLiked,
+  //             likes: post.isLiked ? post.likes - 1 : post.likes + 1,
+  //           }
+  //         : post
+  //     )
+  //   );
+  // };
 
   useEffect(() => {
     const fetchPosts = async () => {
