@@ -141,7 +141,7 @@ export default function Home() {
       // Nota: Si tienes una columna 'isLiked' en tu DB, inclúyela aquí. 
       // Si no, solo actualiza 'likes'.
     })
-    .eq('id', Number(postId));
+    .eq('id', postId);
 
   if (error) {
     console.error("Error al sincronizar el like con Supabase:", error);
