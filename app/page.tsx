@@ -150,21 +150,6 @@ export default function Home() {
 };
 
 
-
-  // const handleLike = (postId: number | string) => {
-  //   setPosts((prevPosts) =>
-  //     prevPosts.map((post) =>
-  //       post.id === postId
-  //         ? {
-  //             ...post,
-  //             isLiked: !post.isLiked,
-  //             likes: post.isLiked ? post.likes - 1 : post.likes + 1,
-  //           }
-  //         : post
-  //     )
-  //   );
-  // };
-
   useEffect(() => {
     const fetchPosts = async () => {
       const { data, error } = await supabase
