@@ -155,7 +155,7 @@ export default function Home() {
       const { data, error } = await supabase
         .from('post_new')
         .select('id, image_url, caption, likes')
-        .order('likes', { ascending: false }) // descendente
+        .order('created_at', { ascending: false }) // descendente
         // .limit(10);                     // opcional durante las pruebas
 
       if (error) {
