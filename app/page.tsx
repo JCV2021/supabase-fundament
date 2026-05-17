@@ -154,7 +154,7 @@ export default function Home() {
     const fetchPosts = async () => {
       const { data, error } = await supabase
         .from('post_new')
-        .select('id, image_url, caption, likes')
+        .select('id, image_url, caption, likes ,created_at')
         .order('created_at', { ascending: false }) // descendente
         // .limit(10);                     // opcional durante las pruebas
 
@@ -175,8 +175,9 @@ export default function Home() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card-bg border-b border-border">
         <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-center">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Suplatzigram
+          
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+            CityGram
           </h1>
         </div>
       </header>
