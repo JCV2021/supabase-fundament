@@ -24,13 +24,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a1a1a;
-    --foreground: #ededed;
-    --primary: #2d8a8a;
-    --primary-light: #3ecf8e;
-    --accent: #3ecf8e;
-    --card-bg: #0f2a2a;
-    --border: #1a3a3a;
+   --background: #09090b;     /* Un negro profundo neutral (Zinc 950) */
+    --foreground: #f4f4f5;     /* Blanco suave para textos (Zinc 100) */
+    --primary: #3b82f6;        /* Azul brillante (combina con tu título CityGram) */
+    --primary-light: #60a5fa;  /* Azul claro para estados e interacciones */
+    --accent: #8b5cf6;         /* Morado vibrante que cierra el gradiente */
+    --card-bg: #18181b;        /* Gris oscuro sólido para las tarjetas (Zinc 900) */
+    --border: #27272a;         /* Bordes ultra sutiles y limpios (Zinc 800) */
   }
 }
 
